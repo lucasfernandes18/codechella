@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -26,8 +28,14 @@ public class EventoService {
     }
 
 
+    public Mono<EventoDTO> cadastrar(EventoDTO eventoDTO) {
+        return eventoRepository.save(eventoDTO.toEntity())
+                .map(EventoDTO::toDTO);
+    }
 
 
+    public Mono<Void> excluir(@PathVariable Long id) {
+        return eventoRepository.deleteById(id);
 
-
+    }
 }
