@@ -7,6 +7,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.awt.*;
+import java.time.Duration;
 
 @RestController
 @RequestMapping("/eventos")
@@ -14,7 +15,12 @@ public class EventoController {
     @Autowired
     private EventoService eventoService;
 
-    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "/categoria/{tipo}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+public Flux<EventoDTO> listarPorTipo(@PathVariable String tipo) {
+        return Flux.from(eventoService.obterPorTipo(tipo))
+                .delayElements(Duration.ofSeconds(4));
+    }
+    @GetMapping
     public Flux<EventoDTO> obterTodos() {
         return eventoService.obterTodos();
     }
