@@ -19,7 +19,7 @@ public class EventoController {
         return eventoService.obterTodos();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/obterPorId/{id}")
     public Mono<EventoDTO> obterPorId(@PathVariable Long id) {
         return eventoService.obterPorId(id);
     }
@@ -29,8 +29,13 @@ public class EventoController {
         return eventoService.cadastrar(eventoDTO);
     }
 
+    @PutMapping("/atualizar/{id}")
+    public Mono<EventoDTO> atualizar(@PathVariable Long id, @RequestBody EventoDTO eventoDTO) {
+        return eventoService.atualizar(id, eventoDTO);
+    }
 
-    @DeleteMapping("/{id}")
+
+    @DeleteMapping("/deletar/{id}")
     public Mono<Void> excluir(@PathVariable Long id) {
         return eventoService.excluir(id);
     }

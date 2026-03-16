@@ -38,4 +38,18 @@ public class EventoService {
         return eventoRepository.deleteById(id);
 
     }
+
+
+    public Mono<EventoDTO> atualizar(@PathVariable Long id, EventoDTO eventoDTO) {
+        return eventoRepository.findById(id)
+                .flatMap(evento -> {
+                    evento.setTipo(eventoDTO.tipo());
+                    evento.setNome(eventoDTO.nome());
+                    evento.setData(eventoDTO.data());
+                    evento.setDescricao(eventoDTO.descricao());
+
+                    return eventoRepository.save(evento);
+                })
+                .map(EventoDTO::toDTO);
+    }
 }
